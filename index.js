@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const errorMiddleware = require('./middlewares/errorMiddleware');
 
 const talkRouter = require('./routes/talker');
+const loginRouter = require('./routes/login');
 
 const app = express();
 app.use(bodyParser.json());
@@ -17,6 +18,8 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/talker', talkRouter);
+
+app.use('/login', loginRouter);
 
 app.use(errorMiddleware);
 
