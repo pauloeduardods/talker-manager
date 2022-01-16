@@ -1,0 +1,22 @@
+version: 0.0.1
+os: linux
+files: 
+  - source: /
+  destination: /home/ec2-user/talker-manager-api
+hooks:
+  ApplicationStop:
+    - location: /scripts/application-stop.sh
+    timeout: 300
+    run_as: ec2-user
+  BeforeInstall:
+    - location: /scripts/before-install.sh
+    timeout: 300
+    runas: ec2-user
+  ApplicationStart:
+    - location: /scripts/application-start.sh
+    timeout: 300
+    runas: ec2-user
+  ValidateService:
+    - location: /scripts/application-validation.sh
+    timeout: 300
+    runas: ec2-user
