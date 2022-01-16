@@ -21,7 +21,7 @@ async function insertTalker({ name, age, talk: { watchedAt, rate } }) {
     talk: { watchedAt, rate },
   };
   talkers.push(newTalker);
-  await fs.writeFile('./talker.json', JSON.stringify(talkers));
+  await fs.writeFile('./talker.json', JSON.stringify(talkers, null, 2));
   return newTalker;
 }
 
@@ -40,8 +40,22 @@ async function updateTalkerById(id, { name, age, talk: { watchedAt, rate } }) {
     }
     return curTalker;
   });
-  await fs.writeFile('./talker.json', JSON.stringify(talkersUpdated));
+  await fs.writeFile('./talker.json', JSON.stringify(talkersUpdated, null, 2));
   return talker;
 }
 
-module.exports = { getTalkers, getTalkerById, insertTalker, updateTalkerById };
+async function deleteTalkerById(id) {
+  const talkers = await getTalkers();
+  const talketToRemove = talkers.find((curTalker) => Number(curTalker.id) === Number(id));
+  const talkersUpdated = talkers.filter((curTalker) => Number(curTalker.id) !== Number(id));
+  await fs.writeFile('./talker.json', JSON.stringify(talkersUpdated, null, 2));
+  return talketToRemove;
+}
+
+module.exports = {
+  getTalkers,
+  getTalkerById,
+  insertTalker,
+  updateTalkerById,
+  deleteTalkerById,
+};

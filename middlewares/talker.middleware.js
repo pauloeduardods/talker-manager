@@ -4,6 +4,7 @@ const {
   getTalkerById: readTalkerById,
   insertTalker: writeTalker,
   updateTalkerById,
+  deleteTalkerById,
 } = require('../utils/talkers');
 
 const getTalkers = rescue(async (_req, res) => {
@@ -89,9 +90,19 @@ const updateTalker = rescue(async (req, res, next) => {
   next({ status: 404, message: 'Pessoa palestrante não encontrada' });
 });
 
+const deleteTalker = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  const talkerDeleted = await deleteTalkerById(id);
+  if (talkerDeleted) {
+    return res.status(204).json(talkerDeleted);
+  }
+  next({ status: 404, message: 'Pessoa palestrante não encontrada' });
+});
+
 module.exports = {
   getTalkers,
   getTalkerById,
   insertTalker: [checkTalker, insertTalker],
   updateTalker: [checkTalker, updateTalker],
+  deleteTalker,
 };
