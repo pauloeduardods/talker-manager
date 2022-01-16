@@ -5,7 +5,10 @@ const {
   insertTalker: writeTalker,
   updateTalkerById,
   deleteTalkerById,
+  searchTalkerByName,
 } = require('../utils/talkers');
+
+const talkerNotFound = { status: 404, message: 'Pessoa palestrante não encontrada' };
 
 const getTalkers = rescue(async (_req, res) => {
   const talker = await readTalkers();
@@ -87,7 +90,7 @@ const updateTalker = rescue(async (req, res, next) => {
   if (talkerUpdated) {
     return res.status(200).json(talkerUpdated);
   }
-  next({ status: 404, message: 'Pessoa palestrante não encontrada' });
+  next(talkerNotFound);
 });
 
 const deleteTalker = rescue(async (req, res, next) => {
@@ -96,7 +99,17 @@ const deleteTalker = rescue(async (req, res, next) => {
   if (talkerDeleted) {
     return res.status(204).json(talkerDeleted);
   }
-  next({ status: 404, message: 'Pessoa palestrante não encontrada' });
+  next(talkerNotFound);
+});
+
+const searchTalker = rescue(async (req, res, next) => {
+  const { q } = req.query;
+  console.log(q)
+  const talker = await searchTalkerByName(q);
+  if (talker.length > 0) {
+    return res.status(200).json(talker);
+  }
+  next(talkerNotFound);
 });
 
 module.exports = {
@@ -105,4 +118,5 @@ module.exports = {
   insertTalker: [checkTalker, insertTalker],
   updateTalker: [checkTalker, updateTalker],
   deleteTalker,
+  searchTalker,
 };

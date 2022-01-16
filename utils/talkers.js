@@ -52,10 +52,17 @@ async function deleteTalkerById(id) {
   return talketToRemove;
 }
 
+async function searchTalkerByName(name) {
+  const talkers = await getTalkers();
+  const talkerByName = talkers.filter((curTalker) => String(curTalker.name).includes(name));
+  return talkerByName;
+}
+
 module.exports = {
   getTalkers,
   getTalkerById,
   insertTalker,
   updateTalkerById,
   deleteTalkerById,
+  searchTalkerByName,
 };
