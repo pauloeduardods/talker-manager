@@ -17,7 +17,7 @@ async function insertTalker({ name, age, talk: { watchedAt, rate } }) {
   const newTalker = {
     name,
     age,
-    id: talkers.length + 1,
+    id: Number(talkers[talkers.length - 1].id) + 1,
     talk: { watchedAt, rate },
   };
   talkers.push(newTalker);
