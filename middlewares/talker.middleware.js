@@ -104,7 +104,6 @@ const deleteTalker = rescue(async (req, res, next) => {
 
 const searchTalker = rescue(async (req, res, next) => {
   const { q } = req.query;
-  console.log(q)
   const talker = await searchTalkerByName(q);
   if (talker.length > 0) {
     return res.status(200).json(talker);
