@@ -25,4 +25,23 @@ async function insertTalker({ name, age, talk: { watchedAt, rate } }) {
   return newTalker;
 }
 
-module.exports = { getTalkers, getTalkerById, insertTalker };
+async function updateTalkerById(id, { name, age, talk: { watchedAt, rate } }) {
+  let talker;
+  const talkers = await getTalkers();
+  const talkersUpdated = talkers.map((curTalker) => {
+    if (Number(curTalker.id) === Number(id)) {
+      talker = { ...curTalker, name, age, talk: { watchedAt, rate } };
+      return {
+        ...curTalker,
+        name,
+        age,
+        talk: { watchedAt, rate },
+      };
+    }
+    return curTalker;
+  });
+  await fs.writeFile('./talker.json', JSON.stringify(talkersUpdated));
+  return talker;
+}
+
+module.exports = { getTalkers, getTalkerById, insertTalker, updateTalkerById };

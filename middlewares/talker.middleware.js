@@ -3,6 +3,7 @@ const {
   getTalkers: readTalkers,
   getTalkerById: readTalkerById,
   insertTalker: writeTalker,
+  updateTalkerById,
 } = require('../utils/talkers');
 
 const getTalkers = rescue(async (_req, res) => {
@@ -19,7 +20,7 @@ const getTalkerById = rescue(async (req, res, next) => {
   next({ status: 404, message: 'Pessoa palestrante não encontrada' });
 });
 
-const checkName = rescue(async (req, res, next) => {
+const checkName = rescue(async (req, _res, next) => {
   const { name } = req.body;
   if (!name) {
     return next({ status: 400, message: 'O campo "name" é obrigatório' });
@@ -30,7 +31,7 @@ const checkName = rescue(async (req, res, next) => {
   next();
 });
 
-const checkAge = rescue(async (req, res, next) => {
+const checkAge = rescue(async (req, _res, next) => {
   const { age } = req.body;
   if (!age) {
     return next({ status: 400, message: 'O campo "age" é obrigatório' });
@@ -41,9 +42,9 @@ const checkAge = rescue(async (req, res, next) => {
   next();
 });
 
-const checkIfTalk = rescue(async (req, res, next) => {
+const checkIfTalk = rescue(async (req, _res, next) => {
   const { talk } = req.body;
-  if (!talk || !talk.watchedAt || !talk.rate) {
+  if (!talk || !talk.watchedAt || (!talk.rate && talk.rate !== 0)) {
     return next({
       status: 400,
       message: 'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios',
@@ -52,7 +53,7 @@ const checkIfTalk = rescue(async (req, res, next) => {
   next();
 });
 
-const checkTalk = rescue(async (req, res, next) => {
+const checkTalk = rescue(async (req, _res, next) => {
   const { talk: { watchedAt, rate } } = req.body;
   const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
   if (!dateRegex.test(watchedAt)) {
@@ -63,6 +64,8 @@ const checkTalk = rescue(async (req, res, next) => {
   }
   next();
 });
+
+const checkTalker = [checkName, checkAge, checkIfTalk, checkTalk];
 
 const insertTalker = rescue(async (req, res) => {
   const { name, age, talk: { watchedAt, rate } } = req.body;
@@ -75,8 +78,20 @@ const insertTalker = rescue(async (req, res) => {
   return res.status(201).json(newTalkerRes);
 });
 
+const updateTalker = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  const { name, age, talk: { watchedAt, rate } } = req.body;
+  const talker = { name, age, talk: { watchedAt, rate } };
+  const talkerUpdated = await updateTalkerById(id, talker);
+  if (talkerUpdated) {
+    return res.status(200).json(talkerUpdated);
+  }
+  next({ status: 404, message: 'Pessoa palestrante não encontrada' });
+});
+
 module.exports = {
   getTalkers,
   getTalkerById,
-  insertTalker: [checkName, checkAge, checkIfTalk, checkTalk, insertTalker],
+  insertTalker: [checkTalker, insertTalker],
+  updateTalker: [checkTalker, updateTalker],
 };

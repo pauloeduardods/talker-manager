@@ -4,6 +4,7 @@ const {
   getTalkers,
   getTalkerById,
   insertTalker,
+  updateTalker,
 } = require('../middlewares/talker.middleware');
 
 const router = express.Router();
@@ -15,5 +16,7 @@ router.get('/:id', getTalkerById);
 router.use(checkToken);
 
 router.post('/', insertTalker);
+
+router.put('/:id', updateTalker);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const rescue = require('express-rescue');
 
-const checkIfToken = rescue(async (req, res, next) => {
+const checkIfToken = rescue(async (req, _res, next) => {
   const { authorization } = req.headers;
   if (authorization) {
     return next();
