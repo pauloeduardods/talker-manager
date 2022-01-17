@@ -4,3 +4,5 @@ services:
     build: .
     ports:
       - 7070:3000
+    environment:
+      - HOST=/api/v1/talker-manager
