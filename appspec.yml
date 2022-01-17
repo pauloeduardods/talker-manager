@@ -2,7 +2,7 @@ version: 0.0.1
 os: linux
 files: 
   - source: /
-  destination: /home/ec2-user/talker-manager-api
+    destination: /home/ec2-user/talker-manager-api
 hooks:
   ApplicationStop:
     - location: Scripts/application-stop.sh
