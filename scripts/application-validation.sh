@@ -1,6 +1,6 @@
 echo "Checking if application is running"
 
-if [ "$( docker container inspect -f '{{.State.Status}}' talker-manager_back-end_1 )" == "running" ];
+if [ "$( docker container inspect -f '{{.State.Status}}' talker-manager-api-back-end-1 )" == "running" ];
 then
   echo "Container is running"
   docker container prune -f
