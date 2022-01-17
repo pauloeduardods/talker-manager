@@ -5,18 +5,18 @@ files:
   destination: /home/ec2-user/talker-manager-api
 hooks:
   ApplicationStop:
-    - location: scripts/application-stop.sh
+    - location: Scripts/application-stop.sh
       timeout: 300
       runas: ec2-user
   BeforeInstall:
-    - location: scripts/before-install.sh
+    - location: Scripts/before-install.sh
       timeout: 300
       runas: ec2-user
   ApplicationStart:
-    - location: scripts/application-start.sh
+    - location: Scripts/application-start.sh
       timeout: 300
       runas: ec2-user
   ValidateService:
-    - location: scripts/application-validation.sh
+    - location: Scripts/application-validation.sh
       timeout: 300
       runas: ec2-user
