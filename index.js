@@ -8,7 +8,7 @@ const loginRouter = require('./routes/login');
 
 const server = express();
 const app = express.Router();
-app.use(bodyParser.json());
+server.use(bodyParser.json());
 
 const HTTP_OK_STATUS = 200;
 const PORT = process.env.PORT || 3000;
