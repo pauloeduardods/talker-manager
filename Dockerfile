@@ -1,4 +1,4 @@
-FROM node:fermium-alpine3.15
+FROM node:erbium-alpine3.14
 
 WORKDIR /app
 ENV NODE_ENV=production
