@@ -17,7 +17,7 @@ const HOST = process.env.HOST || '/';
 // não remova esse endpoint, e para o avaliador funcionar
 
 app.get('/', (_request, response) => {
-  response.status(HTTP_OK_STATUS).send();
+  response.status(HTTP_OK_STATUS).sendFile('./html/root.html', { root: __dirname });
 });
 
 app.use('/talker', talkRouter);
