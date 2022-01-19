@@ -2,6 +2,9 @@
 
 ### DOCUMENTAÇÃO EM CONSTRUÇÃO
 
+## LINK
+  [https://pauloedsg.com/api/v1/talker-manager](https://pauloedsg.com/api/v1/talker-manager)
+
 ## Rotas
 
     - GET /talker
